@@ -44,7 +44,7 @@ app.put("/completed",async function(req,res){
         return;
     }
     // update todo in mongodb
-    await todo.update({
+    await todo.updateOne({
         _id: req.body.id
     },{
         completed: true
