@@ -9,7 +9,7 @@ app.use(express.json());
 app.post("/todo",async function(req,res){
     const createPayload = req.body;
     const parsedPayload = createTodo.safeParse(createPayload)
-    if(!parsedPayload.success()){
+    if(!parsedPayload.success){
         res.send(411).json({
             msg: "you send the wrong inputs"
         })
@@ -37,7 +37,7 @@ app.get("/todos",async function(req,res){
 app.put("/completed",async function(req,res){
     const updatePayload = req.body;
     const parsedPayload = updateTodo.safeParse(updatePayload);
-    if(!parsedPayload.success()){
+    if(!parsedPayload.success){
         res.send(411).json({
             msg: "you send the wrong inputs"
         })
