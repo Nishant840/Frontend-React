@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import React from "react";
 
 // function App() {
@@ -115,29 +115,60 @@ import React from "react";
 
 
 // wrapper component in react
+// function App(){
+//     return <div>
+//         <CardWrapper>
+//             <TextComponent/>
+//         </CardWrapper> 
+//         <CardWrapper>
+//             <TextComponent2/>
+//         </CardWrapper>
+//     </div>
+// }
+// function TextComponent(){
+//     return <div>
+//         Hii there
+//     </div>
+// }
+// function TextComponent2(){
+//     return <div>
+//         Hii there2
+//     </div>
+// }
+// function CardWrapper({children}){
+//     return <div style={{border:"2px solid", marginTop: "2px"}}>
+//         {children}
+//     </div>
+// }
+// export default App
+
+// useEffect
+// function App(){
+//     useEffect(()=>{
+//         // control will reach here when first time it gets render
+//         alert("hi");
+//     },[])
+//     return <div>
+//         Hii There!
+//     </div>
+// }
+
 function App(){
+    const [sum,setSum] = useState(0);
+    useEffect(()=>{
+        // control will reach here when first time it gets render
+        const intervalId = setInterval(async ()=>{
+            const a = Math.floor(Math.random()*100);
+            const b = Math.floor(Math.random()*100);
+            const res = await fetch("http://localhost:3000/sum?a="+a+"&b="+b);
+            const data = await res.json();
+            setSum(data.sum);
+        },10000)
+        return ()=> clearInterval(intervalId);
+    },[])
     return <div>
-        <CardWrapper>
-            <TextComponent/>
-        </CardWrapper> 
-        <CardWrapper>
-            <TextComponent2/>
-        </CardWrapper>
+        Sum is {sum}
     </div>
 }
-function TextComponent(){
-    return <div>
-        Hii there
-    </div>
-}
-function TextComponent2(){
-    return <div>
-        Hii there2
-    </div>
-}
-function CardWrapper({children}){
-    return <div style={{border:"2px solid", marginTop: "2px"}}>
-        {children}
-    </div>
-}
+
 export default App
