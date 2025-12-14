@@ -156,7 +156,8 @@ import React from "react";
 function App(){
     const [sum,setSum] = useState(0);
     useEffect(()=>{
-        // control will reach here when first time it gets render
+        // control will reach here when first time it gets render if array is empty or if array
+        // contains something then control reaches here when any element of array changes
         const intervalId = setInterval(async ()=>{
             const a = Math.floor(Math.random()*100);
             const b = Math.floor(Math.random()*100);
