@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import React from "react";
 import axios from "axios";
 
@@ -192,60 +192,86 @@ import axios from "axios";
 // export default App
 
 // dependencies in useEffect 
+// function App(){
+//     const [a,setA] = useState();
+//     const [b,setB] = useState();
+//     return <>
+//         <b>Choose A: </b>
+//         <button onClick={()=>{
+//             setA(1);
+//         }} >1</button>
+//         <button onClick={()=>{
+//             setA(2);
+//         }} >2</button>
+//         <button onClick={()=>{
+//             setA(3);
+//         }} >3</button>
+//         <button onClick={()=>{
+//             setA(4);
+//         }} >4</button>
+//         <button onClick={()=>{
+//             setA(5);
+//         }} >5</button>
+//         <br /><br />
+
+//         <b>Choose B: </b>
+//         <button onClick={()=>{
+//             setB(1);
+//         }} >1</button>
+//         <button onClick={()=>{
+//             setB(2);
+//         }} >2</button>
+//         <button onClick={()=>{
+//             setB(3);
+//         }} >3</button>
+//         <button onClick={()=>{
+//             setB(4);
+//         }} >4</button>
+//         <button onClick={()=>{
+//             setB(5);
+//         }} >5</button>
+//         <br /><br />
+
+//         <Sum a={a} b={b} />
+//     </>
+// }
+// function Sum({a,b}){
+//     const [sum,setSum] = useState();
+//     useEffect(()=>{
+//         axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
+//         .then(function (res){
+//             setSum(res.data.sum);
+//         })
+//     },[a,b])
+//     return <div>
+//         sum is {sum}
+//     </div>
+// }
+
+// export default App
+
+// useMemo: remembering value across rendring
 function App(){
-    const [a,setA] = useState();
-    const [b,setB] = useState();
+    const [counter,setCounter] = useState(0);
+    const [inputValue,setInputValue] = useState(0);
+
+    let ans = useMemo(()=>{
+        let sum = 0;
+        for(let i=1;i<=inputValue;i++) sum+=i;
+        return sum;
+    },[inputValue])
+
     return <>
-        <b>Choose A: </b>
-        <button onClick={()=>{
-            setA(1);
-        }} >1</button>
-        <button onClick={()=>{
-            setA(2);
-        }} >2</button>
-        <button onClick={()=>{
-            setA(3);
-        }} >3</button>
-        <button onClick={()=>{
-            setA(4);
-        }} >4</button>
-        <button onClick={()=>{
-            setA(5);
-        }} >5</button>
+        <input onChange={(e)=>{
+            setInputValue(e.target.value)
+        }} type="text" placeholder="Enter input value" />
         <br /><br />
-
-        <b>Choose B: </b>
-        <button onClick={()=>{
-            setB(1);
-        }} >1</button>
-        <button onClick={()=>{
-            setB(2);
-        }} >2</button>
-        <button onClick={()=>{
-            setB(3);
-        }} >3</button>
-        <button onClick={()=>{
-            setB(4);
-        }} >4</button>
-        <button onClick={()=>{
-            setB(5);
-        }} >5</button>
+        Sum from 1 to {inputValue} is {ans}
         <br /><br />
-
-        <Sum a={a} b={b} />
+        <button onClick={()=>{
+            setCounter(counter+1)
+        }} >Counter ({counter}) </button>
     </>
-}
-function Sum({a,b}){
-    const [sum,setSum] = useState();
-    useEffect(()=>{
-        axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
-        .then(function (res){
-            setSum(res.data.sum);
-        })
-    },[a,b])
-    return <div>
-        sum is {sum}
-    </div>
 }
 
 export default App
