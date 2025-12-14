@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import React from "react";
+import axios from "axios";
 
 // function App() {
 //   const [name,setName] = useState("Nishant");
@@ -153,22 +154,97 @@ import React from "react";
 //     </div>
 // }
 
+// function App(){
+//     const [sum,setSum] = useState(0);
+//     useEffect(()=>{
+//         // control will reach here when first time it gets render if array is empty or if array
+//         // contains something then control reaches here when any element of array changes usually array contains state variable as it's element
+//         const intervalId = setInterval(async ()=>{
+//             const a = Math.floor(Math.random()*100);
+//             const b = Math.floor(Math.random()*100);
+//             const res = await fetch("http://localhost:3000/sum?a="+a+"&b="+b);
+//             const data = await res.json();
+//             setSum(data.sum);
+//         },10000)
+//         return ()=> clearInterval(intervalId);
+//     },[])
+//     return <div>
+//         Sum is {sum}
+//     </div>
+// }
+
+// export default App
+
+// function App(){
+//     const [sum,setSum] = useState(0);
+//     useEffect(()=>{
+//         const a = Math.floor(Math.random()*100);
+//         const b = Math.floor(Math.random()*100);
+//         axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
+//         .then(function (res){
+//             setSum(res.data.sum)
+//         })
+//     },[])
+//     return <>
+//         sum is {sum}
+//     </>
+// }
+// export default App
+
+// dependencies in useEffect 
 function App(){
-    const [sum,setSum] = useState(0);
+    const [a,setA] = useState();
+    const [b,setB] = useState();
+    return <>
+        <b>Choose A: </b>
+        <button onClick={()=>{
+            setA(1);
+        }} >1</button>
+        <button onClick={()=>{
+            setA(2);
+        }} >2</button>
+        <button onClick={()=>{
+            setA(3);
+        }} >3</button>
+        <button onClick={()=>{
+            setA(4);
+        }} >4</button>
+        <button onClick={()=>{
+            setA(5);
+        }} >5</button>
+        <br /><br />
+
+        <b>Choose B: </b>
+        <button onClick={()=>{
+            setB(1);
+        }} >1</button>
+        <button onClick={()=>{
+            setB(2);
+        }} >2</button>
+        <button onClick={()=>{
+            setB(3);
+        }} >3</button>
+        <button onClick={()=>{
+            setB(4);
+        }} >4</button>
+        <button onClick={()=>{
+            setB(5);
+        }} >5</button>
+        <br /><br />
+
+        <Sum a={a} b={b} />
+    </>
+}
+function Sum({a,b}){
+    const [sum,setSum] = useState();
     useEffect(()=>{
-        // control will reach here when first time it gets render if array is empty or if array
-        // contains something then control reaches here when any element of array changes
-        const intervalId = setInterval(async ()=>{
-            const a = Math.floor(Math.random()*100);
-            const b = Math.floor(Math.random()*100);
-            const res = await fetch("http://localhost:3000/sum?a="+a+"&b="+b);
-            const data = await res.json();
-            setSum(data.sum);
-        },10000)
-        return ()=> clearInterval(intervalId);
-    },[])
+        axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
+        .then(function (res){
+            setSum(res.data.sum);
+        })
+    },[a,b])
     return <div>
-        Sum is {sum}
+        sum is {sum}
     </div>
 }
 
