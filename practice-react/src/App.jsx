@@ -283,9 +283,11 @@ import axios from "axios";
 // location so Demo will re-render so useCallback to prevent that
 function App(){
     const [count,setCount] = useState(0);
+
     let a = useCallback(()=>{
 
     },[])
+    
     return <div>
         <button onClick={()=>{
             setCount(count+1);
