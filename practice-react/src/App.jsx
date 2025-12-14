@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import React from "react";
 import axios from "axios";
 
@@ -251,27 +251,54 @@ import axios from "axios";
 // export default App
 
 // useMemo: remembering value across rendring
+// function App(){
+//     const [counter,setCounter] = useState(0);
+//     const [inputValue,setInputValue] = useState(0);
+
+//     let ans = useMemo(()=>{
+//         let sum = 0;
+//         for(let i=1;i<=inputValue;i++) sum+=i;
+//         return sum;
+//     },[inputValue])
+
+//     return <>
+//         <input onChange={(e)=>{
+//             setInputValue(e.target.value)
+//         }} type="text" placeholder="Enter input value" />
+//         <br /><br />
+//         Sum from 1 to {inputValue} is {ans}
+//         <br /><br />
+//         <button onClick={()=>{
+//             setCounter(counter+1)
+//         }} >Counter ({counter}) </button>
+//     </>
+// }
+
+// export default App
+
+
+
+// useCallback: if a is int or string then Demo will not render in each click but if it is a fxn or object then it will render 
+// because each fxns is refferencing different locations so when state variable changes App will re-render and fxn will get diffnt
+// location so Demo will re-render so useCallback to prevent that
 function App(){
-    const [counter,setCounter] = useState(0);
-    const [inputValue,setInputValue] = useState(0);
+    const [count,setCount] = useState(0);
+    let a = useCallback(()=>{
 
-    let ans = useMemo(()=>{
-        let sum = 0;
-        for(let i=1;i<=inputValue;i++) sum+=i;
-        return sum;
-    },[inputValue])
-
-    return <>
-        <input onChange={(e)=>{
-            setInputValue(e.target.value)
-        }} type="text" placeholder="Enter input value" />
-        <br /><br />
-        Sum from 1 to {inputValue} is {ans}
-        <br /><br />
+    },[])
+    return <div>
         <button onClick={()=>{
-            setCounter(counter+1)
-        }} >Counter ({counter}) </button>
-    </>
+            setCount(count+1);
+        }} >Count {count} </button>
+        <br /><br />
+        <Demo a={a} />
+    </div>
 }
+const Demo = memo(function Demo({a}){
+    console.log("render")
+    return <div>
+        Hii There
+    </div>
+})
 
 export default App
