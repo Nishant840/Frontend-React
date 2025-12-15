@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import React from "react";
 import axios from "axios";
 
@@ -331,19 +331,38 @@ import axios from "axios";
 
 // export default App
 
+// function App(){
+//     const [count,setCount] = useState(0);
+
+//     return <div>
+//         <button onClick={()=>{
+//             // setCount(count+1);
+//             // setCount(count+1);
+//             // still count will get updatedby 1
+
+//             // if want to updateby 2
+//             setCount(count=>count+1);
+//             setCount(count=>count+1);
+//         }} >Count ({count})</button>
+//     </div>
+// }
+
+// export default App
+
+
+// useref hook: use to get refference to dom element
 function App(){
-    const [count,setCount] = useState(0);
+    const [incomeTax,setIncometax] = useState(1000);
+    const divRef = useRef();
+
+    useEffect(()=>{
+        setTimeout(() => {
+            divRef.current.innerHTML = 10;
+        }, 2000);
+    },[])
 
     return <div>
-        <button onClick={()=>{
-            // setCount(count+1);
-            // setCount(count+1);
-            // still count will get updatedby 1
-
-            // if want to updateby 2
-            setCount(count=>count+1);
-            setCount(count=>count+1);
-        }} >Count ({count})</button>
+        the income tax is <div ref={divRef} >{incomeTax} </div>
     </div>
 }
 
