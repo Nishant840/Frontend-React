@@ -281,26 +281,52 @@ import axios from "axios";
 // useCallback: if a is int or string then Demo will not render in each click but if it is a fxn or object then it will render 
 // because each fxns is refferencing different locations so when state variable changes App will re-render and fxn will get diffnt
 // location so Demo will re-render so useCallback to prevent that
-function App(){
-    const [count,setCount] = useState(0);
+// function App(){
+//     const [count,setCount] = useState(0);
 
-    let a = useCallback(()=>{
+//     let a = useCallback(()=>{
 
-    },[])
+//     },[])
     
-    return <div>
-        <button onClick={()=>{
-            setCount(count+1);
-        }} >Count {count} </button>
-        <br /><br />
-        <Demo a={a} />
-    </div>
+//     return <div>
+//         <button onClick={()=>{
+//             setCount(count+1);
+//         }} >Count {count} </button>
+//         <br /><br />
+//         <Demo a={a} />
+//     </div>
+// }
+// const Demo = memo(function Demo({a}){
+//     console.log("render")
+//     return <div>
+//         Hii There
+//     </div>
+// })
+
+// export default App
+
+// usecallback return fxn and usememo return number or string
+
+
+// custom hooks: much more cleaner syntax
+// always start with use 
+function useSum(){
+    const [sum,setSum] = useState(0);
+    useEffect(()=>{
+        const a = Math.floor(Math.random()*100);
+        const b = Math.floor(Math.random()*100);
+        axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
+        .then(function (res){
+            setSum(res.data.sum)
+        })
+    },[])
+    return sum;
 }
-const Demo = memo(function Demo({a}){
-    console.log("render")
-    return <div>
-        Hii There
-    </div>
-})
+function App(){
+    const sum = useSum();
+    return <>
+        sum is {sum}
+    </>
+}
 
 export default App
