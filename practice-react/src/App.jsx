@@ -310,23 +310,41 @@ import axios from "axios";
 
 // custom hooks: much more cleaner syntax
 // always start with use 
-function useSum(){
-    const [sum,setSum] = useState(0);
-    useEffect(()=>{
-        const a = Math.floor(Math.random()*100);
-        const b = Math.floor(Math.random()*100);
-        axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
-        .then(function (res){
-            setSum(res.data.sum)
-        })
-    },[])
-    return sum;
-}
+// function useSum(){
+//     const [sum,setSum] = useState(0);
+//     useEffect(()=>{
+//         const a = Math.floor(Math.random()*100);
+//         const b = Math.floor(Math.random()*100);
+//         axios.get("http://localhost:3000/sum?a="+a+"&b="+b)
+//         .then(function (res){
+//             setSum(res.data.sum)
+//         })
+//     },[])
+//     return sum;
+// }
+// function App(){
+//     const sum = useSum();
+//     return <>
+//         sum is {sum}
+//     </>
+// }
+
+// export default App
+
 function App(){
-    const sum = useSum();
-    return <>
-        sum is {sum}
-    </>
+    const [count,setCount] = useState(0);
+
+    return <div>
+        <button onClick={()=>{
+            // setCount(count+1);
+            // setCount(count+1);
+            // still count will get updatedby 1
+
+            // if want to updateby 2
+            setCount(count=>count+1);
+            setCount(count=>count+1);
+        }} >Count ({count})</button>
+    </div>
 }
 
 export default App
