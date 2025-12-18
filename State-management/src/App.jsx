@@ -63,9 +63,43 @@
 
 // making top bar of linkedIn
 
-import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
-import { jobAtom, networkAtom, notificationAtom, totalCountSelector } from "../store/atoms/count"
+// import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
+// import { jobAtom, networkAtom, notificationAtom, totalCountSelector } from "../store/atoms/count"
 
+
+// function App(){
+//     return <RecoilRoot>
+//         <MainApp />
+//     </RecoilRoot>
+// }
+
+// function MainApp(){
+//     const networkCount = useRecoilValue(networkAtom);
+//     const jobsCount = useRecoilValue(jobAtom);
+//     const messageCount = useRecoilValue(jobAtom);
+//     const notificationCount = useRecoilValue(notificationAtom);
+
+//     const totalCount = useRecoilValue(totalCountSelector);
+
+//     return <div style={{margin: "20px"}} >
+//         <button>Home</button>
+
+//         <button>My Network ({networkCount > 99 ? "99+" : networkCount })</button>
+//         <button>Jobs ({jobsCount}) </button>
+//         <button>Messagings ({messageCount}) </button>
+//         <button>Notifications ({notificationCount}) </button>
+//         <button>me ({totalCount}) </button>
+//     </div>
+// }
+// export default App
+
+
+
+// Asynchronus data queries
+import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
+import { details, totalDetailsCount } from "../store/atoms/count"
+import { useEffect} from "react";
+import axios from "axios";
 
 function App(){
     return <RecoilRoot>
@@ -74,21 +108,98 @@ function App(){
 }
 
 function MainApp(){
-    const networkCount = useRecoilValue(networkAtom);
-    const jobsCount = useRecoilValue(jobAtom);
-    const messageCount = useRecoilValue(jobAtom);
-    const notificationCount = useRecoilValue(notificationAtom);
+    const [allDetails,setAllDetails] = useRecoilState(details);
+    const totalCount = useRecoilValue(totalDetailsCount);
 
-    const totalCount = useRecoilValue(totalCountSelector);
+    // useEffect(()=>{
+    //     axios.get("http://localhost:3000/details")
+    //     .then((res)=>{
+    //         setAllDetails(res.data);
+    //     })
+    // },[]);
+    return (
+        <div style={styles.container}>
+        <div style={styles.navbar}>
+            <button style={styles.btn}>Home</button>
 
-    return <div style={{margin: "20px"}} >
-        <button>Home</button>
+            <button style={styles.btn}>
+                My Network
+                <span style={styles.badgeFloat}>
+                    {allDetails.networkCount > 99 ? "99+" : allDetails.networkCount}
+                </span>
+            </button>
 
-        <button>My Network ({networkCount > 99 ? "99+" : networkCount })</button>
-        <button>Jobs ({jobsCount}) </button>
-        <button>Messagings ({messageCount}) </button>
-        <button>Notifications ({notificationCount}) </button>
-        <button>me ({totalCount}) </button>
-    </div>
+            <button style={styles.btn}>
+                Jobs
+                <span style={styles.badgeFloat}>{allDetails.jobsCount}</span>
+            </button>
+
+            <button style={styles.btn}>
+                Messaging
+                <span style={styles.badgeFloat}>{allDetails.jobsCount}</span>
+            </button>
+
+            <button style={styles.btn}>
+                Notifications
+                <span style={styles.badgeFloat}>{allDetails.jobsCount}</span>
+            </button>
+
+            <button style={{ ...styles.btn, ...styles.meBtn }}>
+                Me ({totalCount})
+            </button>
+        </div>
+        </div>
+    );
 }
+const styles = {
+  container: {
+    backgroundColor: "#f3f2ef",
+    padding: "20px",
+    minHeight: "100vh"
+  },
+
+  navbar: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    padding: "12px 20px",
+    borderRadius: "10px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.08)"
+  },
+
+  btn: {
+    position: "relative",        // ⭐ important
+    padding: "8px 18px",
+    border: "none",
+    borderRadius: "20px",
+    backgroundColor: "#eef3f8",
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: "500"
+  },
+
+  badgeFloat: {
+    position: "absolute",
+    top: "-6px",
+    right: "-6px",
+    backgroundColor: "#cc1016",  // LinkedIn red
+    color: "white",
+    borderRadius: "50%",
+    minWidth: "18px",
+    height: "18px",
+    padding: "0 5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "11px",
+    fontWeight: "700",
+    lineHeight: "1"
+  },
+
+  meBtn: {
+    backgroundColor: "#0a66c2",
+    color: "white"
+  }
+};
 export default App
