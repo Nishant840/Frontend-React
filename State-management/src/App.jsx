@@ -233,7 +233,32 @@
 
 // learning about selectorfamily
 
-import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
+// import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
+// import { todoAtomFamily } from "../store/atoms/todoAtoms";
+
+// function App(){
+//     return <RecoilRoot>
+//         <Todo id={1} />
+//         <Todo id={2} />
+//         <Todo id={1} />
+//     </RecoilRoot>
+// }
+
+// function Todo({id}){
+//     const [currentTodo,setCurrentTodo] = useRecoilState(todoAtomFamily(id));
+
+//     return <div>
+//         {currentTodo.title}
+//         <br />
+//         {currentTodo.description}
+//         <br />
+//     </div>
+// }
+// export default App
+
+
+// learning about useRecoilStateLoadable, useRecoilValueLoadable
+import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot, useRecoilStateLoadable, useRecoilValueLoadable } from "recoil"
 import { todoAtomFamily } from "../store/atoms/todoAtoms";
 
 function App(){
@@ -245,13 +270,24 @@ function App(){
 }
 
 function Todo({id}){
-    const [currentTodo,setCurrentTodo] = useRecoilState(todoAtomFamily(id));
-
-    return <div>
-        {currentTodo.title}
-        <br />
-        {currentTodo.description}
-        <br />
-    </div>
+    // const [currentTodo,setCurrentTodo] = useRecoilStateLoadable(todoAtomFamily(id));
+    const currentTodo = useRecoilValueLoadable(todoAtomFamily(id));
+    // {
+        // contents
+        // state
+    // }
+    if(currentTodo.state == "loading"){
+        return <div>
+            Loading...
+        </div>
+    }
+    else{
+        return <div>
+            {currentTodo.contents.title}
+            <br />
+            {currentTodo.contents.description}
+            <br />
+        </div>   
+    }
 }
 export default App
