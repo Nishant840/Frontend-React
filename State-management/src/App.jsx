@@ -207,6 +207,32 @@
 
 // learning about atom family
 
+// import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
+// import { todoAtomFamily } from "../store/atoms/todoAtoms";
+
+// function App(){
+//     return <RecoilRoot>
+//         <Todo id={1} />
+//         <Todo id={2} />
+//         <Todo id={1} />
+//     </RecoilRoot>
+// }
+
+// function Todo({id}){
+//     const currentTodo = useRecoilValue(todoAtomFamily(id));
+
+//     return <div>
+//         {currentTodo.title}
+//         <br />
+//         {currentTodo.description}
+//         <br />
+//     </div>
+// }
+// export default App
+
+
+// learning about selectorfamily
+
 import { useRecoilState, useRecoilValue, useSetRecoilState, RecoilRoot } from "recoil"
 import { todoAtomFamily } from "../store/atoms/todoAtoms";
 
@@ -219,7 +245,7 @@ function App(){
 }
 
 function Todo({id}){
-    const currentTodo = useRecoilValue(todoAtomFamily(id));
+    const [currentTodo,setCurrentTodo] = useRecoilState(todoAtomFamily(id));
 
     return <div>
         {currentTodo.title}
