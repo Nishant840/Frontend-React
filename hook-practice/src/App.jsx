@@ -105,43 +105,99 @@ import axios from "axios"
 
 
 // data fetching customHook
-function useSum(n){
-    const [sum,setSum] = useState(0);
-    const [loading,setLoading] = useState(true)
-    useEffect(()=>{
-        const intervalValue = setInterval(()=>{
-            const a = Math.floor(Math.random()*100);
-            const b = Math.floor(Math.random()*100);
-            axios.get("http://localhost:3000/sum?a=" + a + "&b=" + b)
-            .then((res)=>{
-                setSum(res.data)
-                setLoading(false);
-            })
-        },n*1000)
+// function useSum(n){
+//     const [sum,setSum] = useState(0);
+//     const [loading,setLoading] = useState(true)
+//     useEffect(()=>{
+//         const intervalValue = setInterval(()=>{
+//             const a = Math.floor(Math.random()*100);
+//             const b = Math.floor(Math.random()*100);
+//             axios.get("http://localhost:3000/sum?a=" + a + "&b=" + b)
+//             .then((res)=>{
+//                 setSum(res.data)
+//                 setLoading(false);
+//             })
+//         },n*1000)
 
-        const a = Math.floor(Math.random()*100);
-        const b = Math.floor(Math.random()*100);
-        axios.get("http://localhost:3000/sum?a=" + a + "&b=" + b)
-        .then((res)=>{
-            setSum(res.data)
-            setLoading(false);
-        })
+//         const a = Math.floor(Math.random()*100);
+//         const b = Math.floor(Math.random()*100);
+//         axios.get("http://localhost:3000/sum?a=" + a + "&b=" + b)
+//         .then((res)=>{
+//             setSum(res.data)
+//             setLoading(false);
+//         })
+
+//         return ()=>{
+//             clearInterval(intervalValue);
+//         }
+//     },[n])
+//     return {sum,loading};
+// }
+// function App(){
+//     const {sum,loading} = useSum(1);
+//     if(loading){
+//         return <div>
+//             loading..
+//         </div>
+//     }
+//     return <div>
+//         <b>{sum}</b>
+//     </div>
+// }
+// export default App;
+
+
+
+// checking user is online or not
+
+// function useIsOnline(){
+//     const [isOnline,setIsOnline] = useState(window.navigator.onLine);
+
+//     useEffect(()=>{
+//         window.addEventListener('online',()=>{
+//             setIsOnline(true);
+//         })
+//         window.addEventListener('ofline',()=>{
+//             setIsOnline(false);
+//         })
+//     })
+//     return isOnline;
+// }
+// function App(){
+//     const isOnline = useIsOnline();
+//     if(isOnline){
+//         return <div>
+//             <b>You are online Yay!</b>
+//         </div>
+//     }
+//     return <div>
+//         <b>You are ofline, please connect to internet</b>
+//     </div>
+// }
+// export default App;
+
+
+
+// hook to check mouse position
+function useMousePointer(){
+    const [position, setPosition] = useState({x:0,y:0});
+
+    const handleMouseMove = (e)=>{
+        setPosition({x:e.clientX, y:e.clientY});
+    }
+    useEffect(()=>{
+        window.addEventListener('mousemove',handleMouseMove);
 
         return ()=>{
-            clearInterval(intervalValue);
-        }
-    },[n])
-    return {sum,loading};
+            window.addEventListener('mousemove',handleMouseMove);
+        };
+    },[]);
+    return position;
 }
 function App(){
-    const {sum,loading} = useSum(1);
-    if(loading){
-        return <div>
-            loading..
-        </div>
-    }
+    const mousePosition = useMousePointer();
     return <div>
-        <b>{sum}</b>
+        <b>Your mouse position is {mousePosition.x}, {mousePosition.y} </b>
     </div>
 }
 export default App;
