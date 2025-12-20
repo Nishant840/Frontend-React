@@ -179,25 +179,51 @@ import axios from "axios"
 
 
 // hook to check mouse position
-function useMousePointer(){
-    const [position, setPosition] = useState({x:0,y:0});
+// function useMousePointer(){
+//     const [position, setPosition] = useState({x:0,y:0});
 
-    const handleMouseMove = (e)=>{
-        setPosition({x:e.clientX, y:e.clientY});
-    }
+//     const handleMouseMove = (e)=>{
+//         setPosition({x:e.clientX, y:e.clientY});
+//     }
+//     useEffect(()=>{
+//         window.addEventListener('mousemove',handleMouseMove);
+
+//         return ()=>{
+//             window.addEventListener('mousemove',handleMouseMove);
+//         };
+//     },[]);
+//     return position;
+// }
+// function App(){
+//     const mousePosition = useMousePointer();
+//     return <div>
+//         <b>Your mouse position is {mousePosition.x}, {mousePosition.y} </b>
+//     </div>
+// }
+// export default App;
+
+
+
+// performance/timer hook
+
+function useInterval(fn,timeout){
     useEffect(()=>{
-        window.addEventListener('mousemove',handleMouseMove);
+        const intervalId = setInterval(()=>{
+            fn();
+        },timeout)
 
         return ()=>{
-            window.addEventListener('mousemove',handleMouseMove);
-        };
+            clearInterval(intervalId);
+        }
     },[]);
-    return position;
 }
 function App(){
-    const mousePosition = useMousePointer();
+    const [count,setCount] = useState(0);
+    useInterval(()=>{
+        setCount(count=>count+1);
+    },1000);
     return <div>
-        <b>Your mouse position is {mousePosition.x}, {mousePosition.y} </b>
+        <b>Timer is at {count} </b>
     </div>
 }
 export default App;
