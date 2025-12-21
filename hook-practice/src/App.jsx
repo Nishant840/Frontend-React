@@ -206,24 +206,52 @@ import axios from "axios"
 
 // performance/timer hook
 
-function useInterval(fn,timeout){
+// function useInterval(fn,timeout){
+//     useEffect(()=>{
+//         const intervalId = setInterval(()=>{
+//             fn();
+//         },timeout)
+
+//         return ()=>{
+//             clearInterval(intervalId);
+//         }
+//     },[]);
+// }
+// function App(){
+//     const [count,setCount] = useState(0);
+//     useInterval(()=>{
+//         setCount(count=>count+1);
+//     },1000);
+//     return <div>
+//         <b>Timer is at {count} </b>
+//     </div>
+// }
+// export default App;
+
+// useDebounce hook
+function useDebounce(value, timeout){
+    const [debouncedValue, setDebounceValue] = useState(value);
+
     useEffect(()=>{
-        const intervalId = setInterval(()=>{
-            fn();
-        },timeout)
+        const timeoutId = setTimeout(()=>{
+            setDebounceValue(value);
+        },timeout);
 
         return ()=>{
-            clearInterval(intervalId);
+            clearTimeout(timeoutId);
         }
-    },[]);
+    },[value]);
+    return debouncedValue;
 }
 function App(){
-    const [count,setCount] = useState(0);
-    useInterval(()=>{
-        setCount(count=>count+1);
-    },1000);
+    const [value, setValue] = useState(0);
+    const debouncedValue = useDebounce(value,500)
     return <div>
-        <b>Timer is at {count} </b>
+        <input type="text" onChange={(e)=>{
+            setValue(e.target.value);
+        }} />
+        <br />
+        debounced value is {debouncedValue}
     </div>
 }
 export default App;
